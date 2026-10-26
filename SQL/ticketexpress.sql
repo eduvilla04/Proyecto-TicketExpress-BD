@@ -121,6 +121,92 @@ CREATE TABLE public.recinto (
 );
 
 
+
+-- 1. TABLA USUARIO
+CREATE TABLE usuario (
+    id_usuario INT,
+    nombre VARCHAR(255),
+    apellido VARCHAR(255),
+    telefono VARCHAR(20),
+    correo VARCHAR(255),
+
+    CONSTRAINT pk_usuario
+        PRIMARY KEY (id_usuario)
+);
+
+-- 2. TABLA PAGO
+CREATE TABLE pago (
+    id_pago INT,
+    fecha_pago TIMESTAMP,
+    monto_total DECIMAL(10,2),
+    metodo_pago VARCHAR(50),
+    estado_pago VARCHAR(30),
+    id_usuario INT,
+
+    CONSTRAINT pk_pago
+        PRIMARY KEY (id_pago),
+
+    CONSTRAINT fk_pago_usuario
+        FOREIGN KEY (id_usuario)
+        REFERENCES usuario (id_usuario)
+);
+
+-- 3. TABLA ZONA
+CREATE TABLE zona (
+    id_zona INT,
+    nombre VARCHAR(100),
+    capacidad INT,
+    id_recinto INT,
+
+    CONSTRAINT pk_zona
+        PRIMARY KEY (id_zona),
+
+    CONSTRAINT fk_zona_recinto
+        FOREIGN KEY (id_recinto)
+        REFERENCES recinto (id_recinto)
+);
+
+-- 4. TABLA ASIENTO
+CREATE TABLE asiento (
+    id_asiento INT,
+    numero INT,
+    fila VARCHAR(10),
+    id_zona INT,
+
+    CONSTRAINT pk_asiento
+        PRIMARY KEY (id_asiento),
+
+    CONSTRAINT fk_asiento_zona
+        FOREIGN KEY (id_zona)
+        REFERENCES zona (id_zona)
+);
+
+-- 5. TABLA TIQUE
+CREATE TABLE tique (
+    codigo_tique VARCHAR(50),
+    precio DECIMAL(10,2),
+    id_pago INT,
+    id_asiento INT,
+    id_funcion INT,
+
+    CONSTRAINT pk_tique
+        PRIMARY KEY (codigo_tique),
+
+    CONSTRAINT fk_tique_pago
+        FOREIGN KEY (id_pago)
+        REFERENCES pago (id_pago),
+
+    CONSTRAINT fk_tique_asiento
+        FOREIGN KEY (id_asiento)
+        REFERENCES asiento (id_asiento),
+
+    CONSTRAINT fk_tique_funcion
+        FOREIGN KEY (id_funcion)
+        REFERENCES funcion (id_funcion)
+);
+
+
+
 ALTER TABLE public.recinto OWNER TO postgres;
 
 --
@@ -198,4 +284,9 @@ ALTER TABLE ONLY public.funcion
 --
 
 \unrestrict KCVjcv4xy1nZavig14MpL5bW1YunFGGZ3g3XcbbKOFJTh76Y0wnIWaBES6rUcDr
+
+
+
+
+
 
