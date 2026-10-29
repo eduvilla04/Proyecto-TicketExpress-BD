@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 --
 -- PostgreSQL database dump
 --
@@ -290,3 +291,5 @@ ALTER TABLE ONLY public.funcion
 
 
 
+=======
+>>>>>>> 170d1e1 (Correcion de tablas)
